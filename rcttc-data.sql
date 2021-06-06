@@ -397,3 +397,41 @@ insert into reservation (seat, customer_id, performance_id)
     (select performance_id from performance p 
     inner join play pl on p.play_id = pl.play_id
     where pl.title = 'The Sky Lit Up' and p.`date` = '2021-09-24'));
+    
+/*
+ The Little Fitz's 2021-03-01 performance of The Sky Lit Up is listed with a $20 ticket price. 
+ The actual price is $22.25 because of a visiting celebrity actor. (Customers were notified.) 
+ Update the ticket price for that performance only.
+*/
+update performance set
+	ticket_price = '22.25'
+where performance_id = 12;
+
+/* 
+  In the Little Fitz's 2021-03-01 performance of The Sky Lit Up, Pooh Bedburrow's and Cullen 
+  Guirau's seat reservations aren't in the same row. Adjust seating so all groups are seated 
+  together in a row. This may require updates to all reservations for that performance. Confirm 
+  that no seat is double-booked and that everyone who has a ticket is as close to their 
+  original seat as possible.
+*/
+select r.seat, c.first_name, c.last_name, c.customer_id, r.reservation_id from reservation r
+inner join customer c on c.customer_id = r.customer_id
+inner join performance p on p.performance_id = r.performance_id
+inner join play pl on p.play_id = pl.play_id
+where pl.title = 'The Sky Lit Up' and p.`date` = '2021-03-01'
+order by c.first_name;
+
+-- Cullen Guirau B4 to C2
+update reservation set
+	seat = 'C2'
+where reservation_id = 8;
+
+-- Pooh Bedburrow A4 to B4
+update reservation set
+	seat = 'B4'
+where reservation_id = '4';
+
+-- Chiarra Vail C2 to A4
+update reservation set
+	seat = 'A4'
+where reservation_id = '10';

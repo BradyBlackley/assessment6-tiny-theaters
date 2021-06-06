@@ -435,3 +435,19 @@ where reservation_id = '4';
 update reservation set
 	seat = 'A4'
 where reservation_id = '10';
+
+select c.customer_id, c.first_name, c.last_name, cc.phone
+from customer c
+inner join customer_contact cc on c.customer_id = cc.customer_id
+where c.first_name = 'Hashim' or c.first_name = 'Elicia';
+-- A data entry error accidentally swapped the phone numbers for Hashim Daouze and
+--  Elicia Heymann. Swap them back.
+-- Hashim (338) 922-3547 -> (129) 168-4725
+update customer_contact set
+	phone = '(129) 168-4725'
+where customer_id = 6;
+
+-- Elicia (129) 168-4725 -> (338) 922-3547
+update customer_contact set
+	phone = '(338) 922-3547'
+where customer_id = 4;

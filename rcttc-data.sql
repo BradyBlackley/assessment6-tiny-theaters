@@ -414,13 +414,14 @@ where performance_id = 12;
   that no seat is double-booked and that everyone who has a ticket is as close to their 
   original seat as possible.
 */
-select r.seat, c.first_name, c.last_name, c.customer_id, r.reservation_id from reservation r
-inner join customer c on c.customer_id = r.customer_id
-inner join performance p on p.performance_id = r.performance_id
-inner join play pl on p.play_id = pl.play_id
-where pl.title = 'The Sky Lit Up' and p.`date` = '2021-03-01'
-order by c.first_name;
-
+	/* helper query
+		select r.seat, c.first_name, c.last_name, c.customer_id, r.reservation_id from reservation r
+		inner join customer c on c.customer_id = r.customer_id
+		inner join performance p on p.performance_id = r.performance_id
+		inner join play pl on p.play_id = pl.play_id
+		where pl.title = 'The Sky Lit Up' and p.`date` = '2021-03-01'
+		order by c.first_name;
+	*/
 -- Cullen Guirau B4 to C2
 update reservation set
 	seat = 'C2'
@@ -451,3 +452,17 @@ where customer_id = 6;
 update customer_contact set
 	phone = '(338) 922-3547'
 where customer_id = 4;
+
+-- Delete all single-ticket reservations for the Little Fitz's 2021-09-24 performance
+--  of The Sky Lit Up. (You don't have to do it with one query, though it's possible.)
+	/* helper query
+		select r.reservation_id, r.seat, c.first_name, c.last_name, p.`date`
+		from reservation r 
+		inner join customer c on c.customer_id = r.customer_id
+		inner join performance p on p.performance_id = r.performance_id
+		inner join play pl on p.play_id = pl.play_id
+		where pl.title = 'The Sky Lit Up' and p.`date` = '2021-09-24'
+		order by c.first_name;
+	*/
+delete from reservation
+where reservation_id = 23 or reservation_id = 24 or reservation_id = 19;

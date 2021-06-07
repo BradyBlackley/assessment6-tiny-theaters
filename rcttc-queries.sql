@@ -4,7 +4,7 @@ use rcttc;
 select p.performance_id, pl.title, p.`date`
 from performance p
 inner join play pl on p.play_id = pl.play_id
-where p.`date` between '2021-07-01' and '2021-09-31';
+where p.`date` between '2021-07-01' and '2021-09-30';
 
 -- List customers without duplication.
 
